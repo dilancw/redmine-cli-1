@@ -2,9 +2,11 @@ import json
 import os
 from urllib.parse import urljoin
 
-import click
+
 import requests
 
+import click
+import datetime
 
 class Redmine:
     def __init__(
@@ -228,6 +230,11 @@ class Redmine:
                 "issue_id": issue_id,
                 "hours": hours,
                 "comments": kwargs.get("comment"),
+                "activity_id":20,
+                "custom_field_values":{
+                                      159: "Green"
+                                      },
+                "spent_on":"",
             }
         }
 
@@ -236,6 +243,11 @@ class Redmine:
 
         if kwargs.get("on"):
             fields["time_entry"].update({"spent_on": kwargs.get("on")})
+        else:
+            today = datetime.datetime.today()
+            str_today = today.strftime("%Y-%m-%d")
+            print(str_today)
+            fields["time_entry"].update({"spent_on":str_today})
 
         resp = requests.post(
             f"{self.url}/time_entries.json",
