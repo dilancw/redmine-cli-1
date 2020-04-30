@@ -230,7 +230,7 @@ class Redmine:
                 "issue_id": issue_id,
                 "hours": hours,
                 "comments": kwargs.get("comment"),
-                "activity_id":20,
+                "activity_id":9,
                 "custom_field_values":{
                                       159: "Green"
                                       },
@@ -241,6 +241,21 @@ class Redmine:
         if kwargs.get("activity"):
             fields["time_entry"].update({"activity_id": kwargs.get("activity")})
 
+        if kwargs.get("from"):
+            print("Task -filed avilalble" + kwargs.get("from"))
+            config = Config()
+            config.read_from_file()
+              #  fields["time_entry"].update({"activity_id": kwargs.get("activity")})
+            dict = config.aliases.items()
+            issue_id = ""
+            for task,issueid in dict:
+                if (task == kwargs.get("from")):
+                    issue_id = issueid
+                    print(issueid)
+            if (issue_id != ""):
+                fields["time_entry"].update({"issue_id": issue_id})
+            else:
+                print("alias not found")
         if kwargs.get("on"):
             fields["time_entry"].update({"spent_on": kwargs.get("on")})
         else:
@@ -248,7 +263,7 @@ class Redmine:
             str_today = today.strftime("%Y-%m-%d")
             print(str_today)
             fields["time_entry"].update({"spent_on":str_today})
-
+        click.echo(click.style(f"Values: {fields}", fg="yellow"))
         resp = requests.post(
             f"{self.url}/time_entries.json",
             json=fields,
