@@ -7,6 +7,7 @@ import requests
 
 import click
 import datetime
+from redmine.cli.config import Config
 
 class Redmine:
     def __init__(
@@ -242,7 +243,7 @@ class Redmine:
             fields["time_entry"].update({"activity_id": kwargs.get("activity")})
 
         if kwargs.get("from"):
-            print("Task -filed avilalble" + kwargs.get("from"))
+         #   print("Task -filed avilalble" + kwargs.get("from"))
             config = Config()
             config.read_from_file()
               #  fields["time_entry"].update({"activity_id": kwargs.get("activity")})
@@ -251,7 +252,7 @@ class Redmine:
             for task,issueid in dict:
                 if (task == kwargs.get("from")):
                     issue_id = issueid
-                    print(issueid)
+            #        print(issueid)
             if (issue_id != ""):
                 fields["time_entry"].update({"issue_id": issue_id})
             else:
