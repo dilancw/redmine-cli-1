@@ -431,6 +431,7 @@ def times(redmine, **kwargs):
 @click.option(OPTIONS["on"]["long"], default=None)
 @click.option(OPTIONS["activity"]["long"], OPTIONS["activity"]["short"], default=None)
 @click.option(OPTIONS["comment"]["long"], OPTIONS["comment"]["short"], default=None)
+@click.option(OPTIONS["from"]["long"], default=None)
 @click.pass_obj
 def spent(redmine, issue_id, hours, **kwargs):
     """ Create new time entry """
